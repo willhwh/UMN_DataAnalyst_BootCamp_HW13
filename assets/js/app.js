@@ -259,7 +259,54 @@ function renderCircles(circlesGroup3, newXScale, chosenXAxis,newYScale,chosenYAx
     circlesGroup3.transition()
       .duration(1000)
       .attr("cx", d => newXScale(d[chosenXAxis]))
-      .attr("cy", d=>newYScale(d[ChosenYAxis]))
+      .attr("cy", d => newYScale(d[ChosenYAxis]))
   
     return circlesGroup;
   }
+
+// function used for updating circles group with new tooltip
+
+
+
+
+// Retrieve data from the CSV file and execute everything below
+d3.csv('assets/data/data.csv').then(function(data){
+    if (err) throw err;
+
+    //formating data
+    data.forEach(function(data){
+        data.income =+ data.income;
+        data.poverty =+ data.poverty;
+        data.age =+ data.age;
+        data.obesity =+ data.obesity;
+        data.smoke =+ data.smoke;
+        data.healthcare =+ data.healthcare;
+    });
+
+
+    //xScale1
+    var xScale =d3.scaleLinear()
+        .domain([d3.extent(data,d=>d.poverty)[0]-1,d3.extent(data,d=>d.poverty)[1]])
+        .range([0,width]);
+    //yScale1
+    var yScale =d3.scaleLinear()
+        .domain([d3.extent(data,d=>d.smoke)[0]-1,d3.extent(data,d=>d.smoke)[1]])
+        .range([smoke,0])
+
+    // Create initial axis functions
+    var bottomAxis = d3.axisBottom(xScale);
+    var leftAxis = d3.axisLeft(yScale);
+
+
+    // append x axis
+    var xAxis = chartGroup3.append("g")
+        .classed("x-axis", true)
+        .attr("transform", `translate(0, ${height})`)
+        .call(bottomAxis);
+
+    // append y axis
+    var yAxis = chartGroup3.append("g")
+        .call(leftAxis);    
+
+
+});
