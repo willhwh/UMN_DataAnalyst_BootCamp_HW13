@@ -230,3 +230,36 @@ function yScale(smokeData, chosenYAxis) {
     return yLinearScale;
   
   }
+
+// function used for updating xAxis or yAxis var upon click on axis label
+function renderAxes_x(newXScale, xAxis) {
+    var bottomAxis = d3.axisBottom(newXScale);
+  
+    xAxis.transition()
+      .duration(1000)
+      .call(bottomAxis);
+  
+    return xAxis;
+  }
+
+function renderAxes_y(newYScale, yAxis) {
+    var leftAxis = d3.axisLeft(newYScale);
+  
+    yAxis.transition()
+      .duration(1000)
+      .call(leftAxis);
+  
+    return yAxis;
+  }
+
+// function used for updating circles group with a transition to
+// new circles
+function renderCircles(circlesGroup3, newXScale, chosenXAxis,newYScale,chosenYAxis) {
+
+    circlesGroup3.transition()
+      .duration(1000)
+      .attr("cx", d => newXScale(d[chosenXAxis]))
+      .attr("cy", d=>newYScale(d[ChosenYAxis]))
+  
+    return circlesGroup;
+  }
