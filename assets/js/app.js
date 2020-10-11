@@ -193,7 +193,7 @@ d3.csv('assets/data/data.csv').then(function(data){
 //challenge section --- start
 
 // append svg3
-var svg3 = d3.select('#Scatter')
+var svg3 = d3.select('#scatter')
     .append('svg')
     .attr("height", svgHeight)
     .attr("width", svgWidth);
@@ -267,10 +267,8 @@ function renderCircles(circlesGroup3, newXScale, chosenXAxis,newYScale,chosenYAx
 // function used for updating circles group with new tooltip
 
 
-
-
 // Retrieve data from the CSV file and execute everything below
-d3.csv('assets/data/data.csv').then(function(data){
+d3.csv('assets/data/data.csv').then(function(data,err){
     if (err) throw err;
 
     //formating data
@@ -279,7 +277,7 @@ d3.csv('assets/data/data.csv').then(function(data){
         data.poverty =+ data.poverty;
         data.age =+ data.age;
         data.obesity =+ data.obesity;
-        data.smoke =+ data.smoke;
+        data.smokes =+ data.smokes;
         data.healthcare =+ data.healthcare;
     });
 
@@ -290,8 +288,8 @@ d3.csv('assets/data/data.csv').then(function(data){
         .range([0,width]);
     //yScale1
     var yScale =d3.scaleLinear()
-        .domain([d3.extent(data,d=>d.smoke)[0]-1,d3.extent(data,d=>d.smoke)[1]])
-        .range([smoke,0])
+        .domain([d3.extent(data,d=>d.smokes)[0]-1,d3.extent(data,d=>d.smokes)[1]])
+        .range([height,0])
 
     // Create initial axis functions
     var bottomAxis = d3.axisBottom(xScale);
@@ -308,5 +306,14 @@ d3.csv('assets/data/data.csv').then(function(data){
     var yAxis = chartGroup3.append("g")
         .call(leftAxis);    
 
-
+      // append initial circles
+    var circlesGroup = chartGroup.selectAll("circle")
+        .data(data)
+        .enter()
+        .append("circle")
+        .attr("cx", d => xLinearScale(d[chosenXAxis]))
+        .attr("cy", d => yLinearScale(d[chosenYAxis]))
+        .attr("r", 20)
+        .attr("fill", "pink")
+        .attr("opacity", ".5");
 });
