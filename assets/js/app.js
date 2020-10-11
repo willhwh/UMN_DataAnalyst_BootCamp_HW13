@@ -8,13 +8,14 @@ var margin = {
     bottom: 50,
     left: 50
 };
-  
+
+//svg height and width
 var height = svgHeight - margin.top - margin.bottom;
 var width = svgWidth - margin.left - margin.right;
 
 
 
-// append svg and group
+// append svg and svg2
 var svg = d3.select("#scatter")
 .append("svg")
 .attr("height", svgHeight)
@@ -25,6 +26,7 @@ var svg2 = d3.select("#scatter")
 .attr("height", svgHeight)
 .attr("width", svgWidth);
 
+// append chartGroup1 and chartGroup2
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
@@ -112,11 +114,11 @@ d3.csv('assets/data/data.csv').then(function(data){
 
 //income vs healthcare --- start
 
-    //xScale1
+    //xScale2
     var xScale2 =d3.scaleLinear()
     .domain([d3.extent(data,d=>d.poverty)[0]-1,d3.extent(data,d=>d.poverty)[1]])
     .range([0,width]);
-    //yScale1
+    //yScale2
     var yScale2 =d3.scaleLinear()
     .domain([d3.extent(data,d=>d.healthcare)[0]-1,d3.extent(data,d=>d.healthcare)[1]])
     .range([height,0])
@@ -157,19 +159,19 @@ d3.csv('assets/data/data.csv').then(function(data){
 
 
     //add chart label
-    var xaxisLabelsGroup1 = chartGroup2.append("g")
+    var xaxisLabelsGroup2 = chartGroup2.append("g")
     .attr("transform", `translate(${width / 2}, 0)`);
 
-    var xaxisLabel1 = xaxisLabelsGroup1.append("text")
+    var xaxisLabel2 = xaxisLabelsGroup2.append("text")
     .attr("text-anchor", "end")
     .attr("x", margin.left)
     .attr("y", height+30)
     .text("Poverty (%)");
 
-    var yaxisLabelsGroup1 = chartGroup2.append("g")
+    var yaxisLabelsGroup2 = chartGroup2.append("g")
     .attr("transform", `translate(0, 0)`);
 
-    var yaxisLabel1 = yaxisLabelsGroup1.append("text")
+    var yaxisLabel2 = yaxisLabelsGroup2.append("text")
     .attr("text-anchor", "end")
     .attr("transform", "rotate(-90)")
     .attr("y", -margin.left+20)
