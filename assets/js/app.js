@@ -37,18 +37,6 @@ var chartGroup2 = svg2.append("g")
     .attr("transform", `translate(${margin.left}, ${margin.top})`);  
 
 
-
-
-// Initial Params
-var chosenXAxis = "";
-
-
-
-
-
-
-
-
 //load data for scales usage
 d3.csv('assets/data/data.csv').then(function(data){
     
@@ -204,12 +192,41 @@ d3.csv('assets/data/data.csv').then(function(data){
 
 //challenge section --- start
 
-    // append svg3
+// append svg3
 var svg3 = d3.select('#Scatter')
     .append('svg')
     .attr("height", svgHeight)
     .attr("width", svgWidth);
 
-    //append chartgroup3
+//append chartgroup3
 var chartGroup3 = svg3.append('g')
     .attr("transform", `translate(${margin.left}, ${margin.top})`);  
+
+// Initial Params
+var chosenXAxis = "Poverty (%)";
+var chosenYAxis = "Smoke (%)";
+
+// function used for updating x-scale var upon click on axis label
+function xScale(povertyData, chosenXAxis) {
+    // create scales
+    var xLinearScale = d3.scaleLinear()
+      .domain([d3.min(povertyData, d => d[chosenXAxis]),
+        d3.max(povertyData, d => d[chosenXAxis])
+      ])
+      .range([0, width]);
+  
+    return xLinearScale;
+  
+  }
+
+function yScale(smokeData, chosenYAxis) {
+    // create scales
+    var yLinearScale = d3.scaleLinear()
+      .domain([d3.min(smokeData, d => d[chosenYAxis]),
+        d3.max(smokeData, d => d[chosenYAxis])
+      ])
+      .range([height, 0]);
+  
+    return yLinearScale;
+  
+  }
