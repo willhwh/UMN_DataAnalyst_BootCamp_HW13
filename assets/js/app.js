@@ -42,10 +42,10 @@ d3.csv('assets/data/data.csv').then(function(data){
     
     //formating data
     data.forEach(function(data){
-        data.poverty=+data.poverty;
-        data.obesity=+data.obesity;
-        data.income=+data.income;
-        data.healthcare=+data.healthcare;
+        data.poverty= +data.poverty;
+        data.obesity= +data.obesity;
+        data.income= +data.income;
+        data.healthcare= +data.healthcare;
     });
     
 //poverty vs obesity --- start
@@ -203,8 +203,8 @@ var chartGroup3 = svg3.append('g')
     .attr("transform", `translate(${margin.left}, ${margin.top})`);  
 
 // Initial Params
-var chosenXAxis = "Poverty (%)";
-var chosenYAxis = "Smoke (%)";
+var chosenXAxis = "poverty";
+var chosenYAxis = "smokes";
 
 // function used for updating x-scale var upon click on axis label
 function xScale(povertyData, chosenXAxis) {
@@ -259,7 +259,7 @@ function renderCircles(circlesGroup3, newXScale, chosenXAxis,newYScale,chosenYAx
     circlesGroup3.transition()
       .duration(1000)
       .attr("cx", d => newXScale(d[chosenXAxis]))
-      .attr("cy", d => newYScale(d[ChosenYAxis]))
+      .attr("cy", d => newYScale(d[chosenYAxis]))
   
     return circlesGroup;
   }
@@ -273,12 +273,12 @@ d3.csv('assets/data/data.csv').then(function(data,err){
 
     //formating data
     data.forEach(function(data){
-        data.income =+ data.income;
-        data.poverty =+ data.poverty;
-        data.age =+ data.age;
-        data.obesity =+ data.obesity;
-        data.smokes =+ data.smokes;
-        data.healthcare =+ data.healthcare;
+        data.income = +data.income;
+        data.poverty = +data.poverty;
+        data.age = +data.age;
+        data.obesity = +data.obesity;
+        data.smokes = +data.smokes;
+        data.healthcare = +data.healthcare;
     });
 
 
@@ -289,7 +289,7 @@ d3.csv('assets/data/data.csv').then(function(data,err){
     //yScale1
     var yScale =d3.scaleLinear()
         .domain([d3.extent(data,d=>d.smokes)[0]-1,d3.extent(data,d=>d.smokes)[1]])
-        .range([height,0])
+        .range([height,0]);
 
     // Create initial axis functions
     var bottomAxis = d3.axisBottom(xScale);
@@ -306,14 +306,29 @@ d3.csv('assets/data/data.csv').then(function(data,err){
     var yAxis = chartGroup3.append("g")
         .call(leftAxis);    
 
-      // append initial circles
-    var circlesGroup = chartGroup.selectAll("circle")
+    // append initial circles
+    var circlesGroup = chartGroup3.selectAll("circle")
         .data(data)
         .enter()
         .append("circle")
-        .attr("cx", d => xLinearScale(d[chosenXAxis]))
-        .attr("cy", d => yLinearScale(d[chosenYAxis]))
-        .attr("r", 20)
-        .attr("fill", "pink")
-        .attr("opacity", ".5");
+        .attr("r", "10")
+        .attr("fill", "orange")
+        .attr('stroke','black')
+        .attr("cx", d => xScale(d[chosenXAxis]))
+        .attr("cy", d => yScale(d[chosenYAxis]))
+        .attr('text',d => d.state);
+
+    // append initial labels
+    var circlesLabelGroup = chartGroup3.selectAll('text')
+        .data(data)
+        .enter()
+        .append('text')
+        .attr('fill','black')
+        .attr("font-size", "10px")
+        .style("text-anchor", "middle")
+        .attr("x", d => xScale(d[chosenXAxis]))
+        .attr("y", d => yScale(d[chosenYAxis]-0.1))
+        .attr('text',d=>d.state)
+        .text(d => d.abbr);
+    console.log(data);
 });
