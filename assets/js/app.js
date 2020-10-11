@@ -17,21 +17,37 @@ var width = svgWidth - margin.left - margin.right;
 
 // append svg and svg2
 var svg = d3.select("#scatter")
-.append("svg")
-.attr("height", svgHeight)
-.attr("width", svgWidth);
+    .append("svg")
+    .attr("height", svgHeight)
+    .attr("width", svgWidth);
 
 var svg2 = d3.select("#scatter")
-.append("svg")
-.attr("height", svgHeight)
-.attr("width", svgWidth);
+    .append("svg")
+    .attr("height", svgHeight)
+    .attr("width", svgWidth);
+
+
+
 
 // append chartGroup1 and chartGroup2
 var chartGroup = svg.append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`);
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);
 
 var chartGroup2 = svg2.append("g")
-  .attr("transform", `translate(${margin.left}, ${margin.top})`);  
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);  
+
+
+
+
+// Initial Params
+var chosenXAxis = "";
+
+
+
+
+
+
+
 
 //load data for scales usage
 d3.csv('assets/data/data.csv').then(function(data){
@@ -184,3 +200,16 @@ d3.csv('assets/data/data.csv').then(function(data){
 }).catch(function(error) {
     console.log(error);
 });
+
+
+//challenge section --- start
+
+    // append svg3
+var svg3 = d3.select('#Scatter')
+    .append('svg')
+    .attr("height", svgHeight)
+    .attr("width", svgWidth);
+
+    //append chartgroup3
+var chartGroup3 = svg3.append('g')
+    .attr("transform", `translate(${margin.left}, ${margin.top})`);  
